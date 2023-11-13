@@ -1,0 +1,49 @@
+---
+title: "PROJECT PROPOSAL"
+format: html
+editor: visual
+---
+
+## Team Members:
+
+Victoria Agboola
+
+Ilayda Bekircan
+
+## Project Title:
+
+**Credit Card Customers Attrition Predictive Modeling**
+
+## Abstract & Goal:
+
+In the competitive landscape of financial services, customer retention is paramount. A notable bank has observed an unsettling trend of increasing customer attrition rates, particularly within its credit card services. This project aims to develop a predictive model to identify potential customer churn, enabling the bank to implement preemptive measures to improve customer retention. Utilizing a dataset acquired from Kaggle, which includes 10,000 customer profiles with 18 distinct features such as age, salary, marital status, and credit card details, we seek to analyze patterns and indicators of churn. Despite the challenge posed by a lower churn rate of 16.07%, this model aims to provide actionable insights to reverse the trend of customer turnover and ensure the bank's competitive advantage through enhanced service delivery.
+
+Methods:
+
+Logistic Regression, Decision Tree Model, Random Forest and Gradient Boost
+
+## Source:
+
+https://www.kaggle.com/datasets/whenamancodes/credit-card-customers-prediction/data
+
+## Project Description & Methods
+
+first, we are going to analyze the independent variable to identify trends by creating visuals and distribution
+
+do a little data preprocessing and preparation before we start to fit models (change some of the variables to factor, drop some columns (not useful for our analysis), split the data k-fold validation method to split the data into train and test,
+
+We are going to use the following methods to fit the best model: Logistic Regression, Decision Tree Model (CART), Random Forest and Gradient Boost. The plan is to use all these different classification algorithms to build our model and compare result and select the best one. In logistic regression, we are going perform regression diagnostics i.e. identify and potentially remove outliers, high leverage/influential cases in our data sets, we are going to use step () to select variables that better explain our response variable, and multicollinearity. With decision tree model, we will use CART algorithm to fit the full decision tree and then prune the decision tree to reduce the complexity. We fit random forest using Ranger package in R and Grdaient Boost using xgboost package.
+
+Logistic Regression (Logit)
+
+Logistic Regression is a simple and effective classification algorithm for binary outcomes as in credit card customer attrition in a bank. This method is useful for our problem because of its simplicity. We can choose the predictors such as customer age, gender, education level, card category, credit limit or total transaction amount with a logit model to find the ones that has most impact on the response variable. We will check the multicollinearity between the predictors to create a strategy choosing the predictors that has the most effect. We will estimate and interpret the effectiveness of full and reduced models by their residual deviances and AIC values. After creating models, we will check their model adequacy metrics such as accuracy, sensitivity, specificity and AUC.
+
+Decision Tree Model (CART)
+
+We will use CART algorithm which is used both classification and regression models to build a decision tree. This model gives us a structured map with different conditions of the predictors by calculating their cost at every step. We can also visualize the decisions at each node to understand the model better. When CART model has a complex structure with a large number of leaf nodes, we can prune the decision tree to reduce complexity.
+
+Random Forest
+
+Random forest is an ensemble predictive modelling algorithm which uses a number of different decision tree for the same dataset. This method allows us to create different versions of decision trees for the same data set and create an optimum model.
+
+XGBoost
