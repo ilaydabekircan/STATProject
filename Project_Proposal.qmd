@@ -28,22 +28,64 @@ https://www.kaggle.com/datasets/whenamancodes/credit-card-customers-prediction/d
 
 ## Project Description & Methods
 
-first, we are going to analyze the independent variable to identify trends by creating visuals and distribution
+**Introduction:**
+Customer attrition, or churn, is a critical metric that can significantly impact the profitability of a bank's credit card services. Anticipating which customers are likely to leave can help in devising effective retention strategies. This project proposes the development of a predictive model that leverages machine learning to identify potential churn, enabling proactive customer retention efforts.
 
-do a little data preprocessing and preparation before we start to fit models (change some of the variables to factor, drop some columns (not useful for our analysis), split the data k-fold validation method to split the data into train and test,
+**Objective:**
+The objective of this project is to analyze customer data to predict attrition risk, understand the key factors that contribute to customer turnover, and enable the formulation of targeted intervention strategies.
 
-We are going to use the following methods to fit the best model: Logistic Regression, Decision Tree Model (CART), Random Forest and Gradient Boost. The plan is to use all these different classification algorithms to build our model and compare result and select the best one. In logistic regression, we are going perform regression diagnostics i.e. identify and potentially remove outliers, high leverage/influential cases in our data sets, we are going to use step () to select variables that better explain our response variable, and multicollinearity. With decision tree model, we will use CART algorithm to fit the full decision tree and then prune the decision tree to reduce the complexity. We fit random forest using Ranger package in R and Grdaient Boost using xgboost package.
+**Methodology:**
 
-Logistic Regression (Logit)
+**Data Preprocessing:**
 
-Logistic Regression is a simple and effective classification algorithm for binary outcomes as in credit card customer attrition in a bank. This method is useful for our problem because of its simplicity. We can choose the predictors such as customer age, gender, education level, card category, credit limit or total transaction amount with a logit model to find the ones that has most impact on the response variable. We will check the multicollinearity between the predictors to create a strategy choosing the predictors that has the most effect. We will estimate and interpret the effectiveness of full and reduced models by their residual deviances and AIC values. After creating models, we will check their model adequacy metrics such as accuracy, sensitivity, specificity and AUC.
+-   **Exploratory Data Analysis (EDA)**: Utilizing visualization tools to identify trends, patterns, and outliers within the independent variables.
 
-Decision Tree Model (CART)
+-   **Data Cleaning**: Addressing missing values, outliers, and errors to ensure data quality.
 
-We will use CART algorithm which is used both classification and regression models to build a decision tree. This model gives us a structured map with different conditions of the predictors by calculating their cost at every step. We can also visualize the decisions at each node to understand the model better. When CART model has a complex structure with a large number of leaf nodes, we can prune the decision tree to reduce complexity.
+-   **Feature Engineering**: Transforming and selecting relevant features to improve model performance, including encoding categorical variables and normalizing numerical variables.
 
-Random Forest
+**Model Development:**
 
-Random forest is an ensemble predictive modelling algorithm which uses a number of different decision tree for the same dataset. This method allows us to create different versions of decision trees for the same data set and create an optimum model.
+-   **Model Selection**: Comparing multiple classification algorithms: Logistic Regression, Decision Tree (CART), Random Forest, and Gradient Boosting.
 
-XGBoost
+-   **Model Validation**: Implementing k-fold cross-validation to assess the generalizability of the models.
+
+-   **Model Evaluation**: Employing metrics such as accuracy, precision, recall, F1 score, and the area under the receiver operating characteristic (ROC) curve to evaluate model performance.
+
+**Model Implementation:**
+
+-   **Logistic Regression**: To establish a baseline model due to its interpretability and efficiency, especially useful for identifying influential predictors through odds ratios.
+
+-   **Decision Tree (CART)**: For its ability to provide a clear decision structure and ease of interpretation, with pruning techniques to avoid overfitting.
+
+-   **Random Forest**: To improve upon decision tree performance by aggregating multiple trees, reducing variance, and providing feature importance rankings.
+
+-   **Gradient Boosting**: To sequentially build on weak learners and focus on areas where prediction error is high, usually resulting in high accuracy.
+
+**Anticipated Challenges:**
+
+-   **Data Bias**: Ensuring the dataset is representative and devoid of biases that could skew predictions.
+
+-   **Overfitting**: Balancing model complexity to ensure predictions are accurate and applicable to new data.
+
+-   **Interpretability**: Maintaining a level of simplicity in models that allows for actionable insights.
+
+**Expected Outcomes:**
+
+**Model Insights:**
+
+-   Identification of key predictors of customer churn.
+
+-   Understanding of the profile of customers who are at risk of attrition.
+
+**Business Impact:**
+
+-   Enabling targeted marketing and retention campaigns.
+
+-   Improving customer satisfaction and loyalty through personalized offerings.
+
+**Take-Away:**
+The proposed predictive model will serve as a strategic tool, empowering the bank to reduce customer attrition and increase the lifetime value of the customer base. The insights gained will inform not only retention strategies but also product development and customer service improvements.
+
+**Conclusion:**
+Predicting customer churn with high accuracy allows a bank to take preemptive action, transforming potential losses into opportunities for engagement and retention. The successful implementation of this project will demonstrate the power of data-driven decision-making in enhancing customer relationships and optimizing service offerings.
