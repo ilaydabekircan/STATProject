@@ -1,0 +1,85 @@
+---
+title: "Credit Card Customers Attrition Predictive Modeling"
+author: "Victoria Agboola & Ilayda Bekircan"
+subtitle: "[https://www.kaggle.com/datasets/whenamancodes/credit-card-customers-prediction/data](https://www.kaggle.com/datasets/whenamancodes/credit-card-customers-prediction/data)"
+editor: visual
+format:
+  revealjs: 
+    theme: solarized
+---
+
+## Abstract & Goal: {.smaller}
+
+In the competitive landscape of financial services, customer retention is paramount. A notable bank has observed an unsettling trend of increasing customer attrition rates, particularly within its credit card services. This project aims to develop a predictive model to identify potential customer churn, enabling the bank to implement preemptive measures to improve customer retention. Utilizing a dataset acquired from Kaggle, which includes 10,000 customer profiles with 18 distinct features such as age, salary, marital status, and credit card details, we seek to analyze patterns and indicators of churn. Despite the challenge posed by a lower churn rate of 16.07%, this model aims to provide actionable insights to reverse the trend of customer turnover and ensure the bank's competitive advantage through enhanced service delivery.
+
+Methods:
+
+Logistic Regression, Decision Tree Model, Random Forest and Gradient Boost
+
+## Project Description {.smaller}
+
+**Introduction:** Customer attrition, or churn, is a critical metric that can significantly impact the profitability of a bank's credit card services. Anticipating which customers are likely to leave can help in devising effective retention strategies. This project proposes the development of a predictive model that leverages machine learning to identify potential churn, enabling proactive customer retention efforts.
+
+**Objective:** The objective of this project is to analyze customer data to predict attrition risk, understand the key factors that contribute to customer turnover, and enable the formulation of targeted intervention strategies.
+
+## Methodology {.smaller}
+
+**Data Preprocessing:**
+
+-   **Exploratory Data Analysis (EDA)**: Utilizing visualization tools to identify trends, patterns, and outliers within the independent variables.
+
+-   **Data Cleaning**: Addressing missing values, outliers, and errors to ensure data quality.
+
+-   **Feature Engineering**: Transforming and selecting relevant features to improve model performance, including encoding categorical variables and normalizing numerical variables.
+
+## Methodology {.smaller}
+
+**Model Development:**
+
+-   **Model Selection**: Comparing multiple classification algorithms: Logistic Regression, Decision Tree (CART), Random Forest, and Gradient Boosting.
+
+-   **Model Validation**: Implementing k-fold cross-validation to assess the generalizability of the models.
+
+-   **Model Evaluation**: Employing metrics such as accuracy, precision, recall, F1 score, and the area under the receiver operating characteristic (ROC) curve to evaluate model performance.
+
+## Methodology {.smaller}
+
+**Model Implementation:**
+
+-   **Logistic Regression**: To establish a baseline model due to its interpretability and efficiency, especially useful for identifying influential predictors through odds ratios.
+
+-   **Decision Tree (CART)**: For its ability to provide a clear decision structure and ease of interpretation, with pruning techniques to avoid overfitting.
+
+-   **Random Forest**: To improve upon decision tree performance by aggregating multiple trees, reducing variance, and providing feature importance rankings.
+
+-   **Gradient Boosting**: To sequentially build on weak learners and focus on areas where prediction error is high, usually resulting in high accuracy.
+
+## Methodology {.smaller}
+
+**Anticipated Challenges:**
+
+-   **Data Bias**: Ensuring the dataset is representative and devoid of biases that could skew predictions.
+
+-   **Overfitting**: Balancing model complexity to ensure predictions are accurate and applicable to new data.
+
+-   **Interpretability**: Maintaining a level of simplicity in models that allows for actionable insights.
+
+## Expected Outcomes {.smaller}
+
+**Model Insights:**
+
+-   Identification of key predictors of customer churn.
+
+-   Understanding of the profile of customers who are at risk of attrition.
+
+**Business Impact:**
+
+-   Enabling targeted marketing and retention campaigns.
+
+-   Improving customer satisfaction and loyalty through personalized offerings.
+
+## Conclusion {.smaller}
+
+**Take-Away:** The proposed predictive model will serve as a strategic tool, empowering the bank to reduce customer attrition and increase the lifetime value of the customer base. The insights gained will inform not only retention strategies but also product development and customer service improvements.
+
+**Conclusion:** Predicting customer churn with high accuracy allows a bank to take preemptive action, transforming potential losses into opportunities for engagement and retention. The successful implementation of this project will demonstrate the power of data-driven decision-making in enhancing customer relationships and optimizing service offerings.
