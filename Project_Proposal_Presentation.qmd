@@ -32,7 +32,7 @@ Logistic Regression, Decision Tree Model, Random Forest and Gradient Boost
 
 -   **Feature Engineering**: Transforming and selecting relevant features to improve model performance, including encoding categorical variables and normalizing numerical variables.
 
-## Methodology {.smaller}
+##  {.smaller}
 
 **Model Development:**
 
@@ -42,7 +42,7 @@ Logistic Regression, Decision Tree Model, Random Forest and Gradient Boost
 
 -   **Model Evaluation**: Employing metrics such as accuracy, precision, recall, F1 score, and the area under the receiver operating characteristic (ROC) curve to evaluate model performance.
 
-## Methodology {.smaller}
+##  {.smaller}
 
 **Model Implementation:**
 
@@ -54,7 +54,7 @@ Logistic Regression, Decision Tree Model, Random Forest and Gradient Boost
 
 -   **Gradient Boosting**: To sequentially build on weak learners and focus on areas where prediction error is high, usually resulting in high accuracy.
 
-## Methodology {.smaller}
+##  {.smaller}
 
 **Anticipated Challenges:**
 
