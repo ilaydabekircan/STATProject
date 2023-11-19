@@ -1,0 +1,112 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+```
+
+```{r}
+data.bank <- read.csv("/Users/victoriaa/Desktop/STAT5405/DATA/BankChurners.csv")
+data.bank
+```
+
+```{r}
+summary(data.bank)
+
+```
+
+```{r}
+sum(is.na(data.bank))
+
+```
+
+```{r}
+# Dropping the CLIENTNUM column using Base R
+data.bank <- data.bank[, -which(names(data.bank) == "CLIENTNUM")]
+# Dropping the last two columns
+data.bank <- data.bank[, -c((ncol(data.bank)-1), ncol(data.bank))]
+summary(data.bank)
+```
+
+```{r}
+cor(data.bank[sapply(data.bank, is.numeric)])
+```
+
+```{r}
+data.bank$Attrition_Flag <- as.factor(ifelse(data.bank$Attrition_Flag == "Existing Customer", 0, 1))
+table(data.bank$Attrition_Flag)
+
+
+```
+
+```{r}
+
+data.bank$Gender <- as.factor(data.bank$Gender)
+data.bank$Education_Level <- as.factor(data.bank$Education_Level)
+data.bank$Marital_Status <- as.factor(data.bank$Marital_Status)
+data.bank$Income_Category <- as.factor(data.bank$Income_Category)
+data.bank$Card_Category <- as.factor(data.bank$Card_Category)
+
+
+str(data.bank)
+
+```
+
+```{r}
+
+# Bar chart comparing the counts of Education Level within each Marital Status category
+ggplot(data.bank, aes(x = Education_Level, fill = Marital_Status)) +
+  geom_bar(position = "dodge") +
+  labs(x = "Education Level", y = "Count", fill = "Marital Status") +
+  theme_minimal()
+
+```
+
+```{r}
+# Boxplot comparing Customer Age across different Education Levels
+ggplot(data.bank, aes(x = Education_Level, y = Customer_Age, fill = Education_Level)) +
+  geom_boxplot() +
+  labs(x = "Education Level", y = "Customer Age") +
+  theme_minimal()
+
+```
+
+```{r}
+ggplot(data.bank, aes(x = Income_Category, y = Customer_Age, fill = Income_Category)) +
+  geom_boxplot() +
+  labs(x = "Income Category", y = "Customer Age") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data.bank, aes(x = Customer_Age)) +
+  geom_histogram(bins = 30, fill = "blue", color = "white") +
+  labs(x = "Customer Age", y = "Frequency") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data.bank, aes(x = Credit_Limit, fill = Gender)) +
+  geom_density(alpha = 0.7) +
+  labs(x = "Credit Limit", y = "Density", fill = "Gender") +
+  theme_minimal()
+```
+
+```{r}
+ggplot(data.bank, aes(x = Attrition_Flag)) +
+  geom_bar(aes(fill = Attrition_Flag)) +
+  labs(x = "Attrition Flag", y = "Count", fill = "Attrition Status") +
+  theme_minimal()
+```
+
+```{r}
+# Scatter Plot of Total Transactions vs. Credit Limit
+ggplot(data.bank, aes(x = Total_Trans_Amt, y = Credit_Limit, color = Attrition_Flag)) +
+  geom_point(alpha = 0.6) +
+  labs(x = "Total Transactions Amount", y = "Credit Limit", color = "Attrition Flag") +
+  theme_minimal()
+```
