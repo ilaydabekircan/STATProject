@@ -10,7 +10,7 @@ library(ggplot2)
 ```
 
 ```{r}
-data.bank <- read.csv("/Users/ilaydabekircan/Documents/STAT/Project/BankChurners.csv")
+data.bank <- read.csv("/Users/victoriaa/Desktop/STAT5405/DATA/BankChurners.csv")
 data.bank
 ```
 
@@ -122,7 +122,7 @@ ggplot(data.bank, aes(x = Total_Trans_Amt, y = Credit_Limit, color = Attrition_F
 
 ```{r}
 # setting seed before splitting train and test sets
-set.seed(1)
+set.seed(42)
 ratio <- 0.80
 train_set <- sort(sample(1:nrow(data.bank), ceiling(nrow(data.bank)*ratio)))
 
@@ -155,6 +155,7 @@ pred.logit_null <- predict(logit.null, newdata = data.test, type="response")
 condition.logit_null <- ifelse(pred.logit_null > 0.5, 1, 0)
 (confusion_matrix.logit_null <- confusionMatrix(reference = as.factor(data.test$Attrition_Flag), 
                                                 data = as.factor(condition.logit_null), 
+                                                positive = "1",
                                                 mode="everything"))
 ```
 
@@ -176,6 +177,7 @@ pred.logit_full <- predict(logit.full, newdata = data.test, type="response")
 condition.logit_full <- ifelse(pred.logit_full > 0.5, 1, 0)
 (confusion_matrix.logit_full <- confusionMatrix(reference = as.factor(data.test$Attrition_Flag), 
                                                 data = as.factor(condition.logit_full), 
+                                                positive = "1",
                                                 mode="everything"))
 ```
 
@@ -202,6 +204,7 @@ pred.logit_both <- predict(logit.both, newdata = data.test, type="response")
 condition.logit_both <- ifelse(pred.logit_both > 0.5, 1, 0)
 (confusion_matrix.logit_both <- confusionMatrix(reference = as.factor(data.test$Attrition_Flag), 
                                                 data = as.factor(condition.logit_both), 
+                                                positive = "1",
                                                 mode="everything"))
 ```
 
@@ -220,3 +223,273 @@ auc(data.test$Attrition_Flag, pred.logit_both)
 
 -   Add deviance residual plots for null, full and reduced logit
 -   Outliers, leverage points, cooks distance, dffits
+
+**Residual Diagnostic Plots**
+
+```{r}
+par(mfrow=c(2,2))
+plot(logit.full)
+```
+
+```{r}
+outliers <- which(abs(residuals(logit.full)) > 3*sd(residuals(logit.full)))
+
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(logit.full.2)
+```
+
+**Checking for high leverage cases**
+
+```{r}
+n <- nrow(data.train.2)
+p <- ncol(data.train.2)-1
+chilev <- which(influence(logit.full)$hat > max(2*(p+1)/n, 0.5))
+chilev
+```
+
+**Checking for high influential points**
+
+```{r}
+cooksD <- cooks.distance(logit.full)
+highCooksD <- which(cooksD > (4/(n-p-1)))
+highCooksD
+```
+
+```{r}
+data.train.3 <- data.train.2[-highCooksD,]
+logit.full.2 <- glm(Attrition_Flag ~ ., 
+                  data = data.train.3, 
+                  family = binomial(link = "logit"))
+summary(logit.full.2)
+
+```
+
+```{r}
+
+pred.logit_full.2 <- predict(logit.full.2, newdata = data.test, type="response")
+
+condition.logit_full.2 <- ifelse(pred.logit_full.2 > 0.5, 1, 0)
+(confusion_matrix.logit_full.2 <- confusionMatrix(reference = as.factor(data.test$Attrition_Flag), 
+                                                data = as.factor(condition.logit_full.2), 
+                                                positive = "1",
+                                                mode="everything"))
+```
+
+**explore interaction or transformation**
+
+### Decision Tree
+
+```{r}
+library(rpart)
+```
+
+```{r}
+fit.allpred <- rpart(Attrition_Flag ~., method = "class", data = data.train,
+                  control = rpart.control(minsplit = 1, cp = 0.001))
+```
+
+```{r}
+printcp(fit.allpred) 
+```
+
+```{r}
+(cp= fit.allpred$cptable[which.min(fit.allpred$cptable[, "xerror"]), "CP"])
+(xerr = fit.allpred$cptable[which.min(fit.allpred$cptable[, "xerror"]), "xerror"])
+```
+
+```{r}
+plotcp(fit.allpred)
+```
+
+```{r}
+library(rpart.plot)
+```
+
+```{r}
+rpart.plot(fit.allp, extra = "auto")
+```
+
+```{r}
+test_df <- data.frame(actual = data.test$Attrition_Flag, pred = NA)
+test_df$pred <- predict(fit.allpred, newdata = data.test, type = "class")
+# Create the confusion matrix using caret
+conf_matrix <- confusionMatrix(as.factor(test_df$pred), as.factor(test_df$actual), positive = "1")
+conf_matrix
+```
+
+**Pruning Tree**
+
+```{r}
+
+prunefit.allp <- prune(fit.allpred, cp =
+    fit.allpred$cptable[which.min(fit.allpred$cptable[, "xerror"]), "CP"])
+```
+
+```{r}
+rpart.plot(prunefit.allp, extra = "auto")
+```
+
+```{r}
+#summary(prunefit.allp)
+```
+
+The error rate computed on the training sample is
+
+```{r}
+rootnode_err <- sum(data.train$Attrition_Flag==1)/nrow(data.train)
+prelerr = prunefit.allp$cptable[which.min(prunefit.allp$cptable[, "rel error"]), "rel error"]
+(presub.err_rate <- rootnode_err*prelerr) 
+```
+
+error rate computed on the test sample is
+
+```{r}
+rootnode_err <- sum(data.train$Attrition_Flag==1)/nrow(data.train)
+pxerr = prunefit.allp$cptable[which.min(prunefit.allp$cptable[, "xerror"]), "xerror"]
+(pcv.err_rate <- rootnode_err*pxerr)
+```
+
+```{r}
+test_df <- data.frame(actual = data.test$Attrition_Flag, pred = NA)
+test_df$prediction <- predict(prunefit.allp, newdata = data.test, type = "class")
+conf_matrix_pruned_tree <- confusionMatrix(as.factor(test_df$prediction), as.factor(test_df$actual), positive = "1")
+conf_matrix_pruned_tree
+```
+
+```{r}
+# Missclassification error rate:
+misclassification_error <- sum(conf_matrix_pruned_tree$table[2,1], conf_matrix_pruned_tree$table[1,2]) /
+                          sum(conf_matrix_pruned_tree$table)
+misclassification_error
+
+```
+
+## Random Forest
+
+```{r}
+library(ranger)
+```
+
+```{r}
+fit.rf <- ranger(Attrition_Flag ~ ., data = data.train, 
+                   importance = 'impurity', mtry = 3)
+print(fit.rf)
+```
+
+```{r}
+library(vip)
+```
+
+```{r}
+(v1 <- vi(fit.rf))
+```
+
+```{r}
+vip(v1)
+```
+
+```{r}
+pred <- predict(fit.rf, data = data.test)
+test_df <- data.frame(actual = data.test$Attrition_Flag, pred = NA)
+test_df$predictions <- pred$predictions
+conf_matrix_rf <- confusionMatrix(as.factor(test_df$predictions), as.factor(test_df$actual), positive = "1")
+conf_matrix_rf
+```
+
+```{r}
+library(caret)
+
+recall <- sensitivity(conf_matrix_rf$table, positive = "1")
+precision <- precision(conf_matrix_rf$table, positive = "1")
+f1_score <- F_meas(conf_matrix_rf$table, positive = "1")
+
+# Print the metrics
+print(paste("Recall:", recall))
+print(paste("Precision:", precision))
+print(paste("F1 Score:", f1_score))
+  
+```
+
+## Gradient Boosting
+
+```{r}
+library(xgboost)
+library(Matrix)
+```
+
+```{r}
+# Transform the predictor matrix using dummy (or indicator or one-hot) encoding 
+matrix_predictors.train <- 
+  as.matrix(sparse.model.matrix(Attrition_Flag ~., data = data.train))[, -1]
+matrix_predictors.test <- 
+  as.matrix(sparse.model.matrix(Attrition_Flag ~., data = data.test))[, -1]
+```
+
+```{r}
+# Train dataset
+pred.train.gbm <- data.matrix(matrix_predictors.train) # predictors only
+#convert factor to numeric
+data.train.gbm <- as.numeric(as.character(data.train$Attrition_Flag)) 
+dtrain <- xgb.DMatrix(data = pred.train.gbm, label = data.train.gbm)
+# Test dataset
+pred.test.gbm <- data.matrix(matrix_predictors.test) # predictors only
+ #convert factor to numeric
+data.test.gbm <- as.numeric(as.character(data.test$Attrition_Flag))
+dtest <- xgb.DMatrix(data = pred.test.gbm, label = data.test.gbm)
+```
+
+```{r}
+watchlist <- list(train = dtrain, test = dtest)
+param <- list(max_depth = 2, eta = 1, nthread = 2,
+              objective = "binary:logistic", eval_metric = "auc")
+```
+
+```{r}
+model.xgb <- xgb.train(param, dtrain, nrounds = 7, watchlist)
+```
+
+```{r}
+pred.y.train <- predict(model.xgb, pred.train.gbm)
+prediction.train <- as.numeric(pred.y.train > 0.5)
+# Measure prediction accuracy on train data
+(tab<-table(data.train.gbm, prediction.train))
+```
+
+```{r}
+sum(diag(tab))/sum(tab)
+```
+
+```{r}
+threshold <- 0.5 # This threshold can be adjusted
+prediction <- as.numeric(pred.y > threshold) # Convert probabilities to binary predictions
+
+# Now, create the test data frame
+test_df <- data.frame(actual = data.test$Attrition_Flag, prediction = prediction)
+
+# Convert both actual and predicted to factors assuming '1' is the positive class
+test_df$actual <- as.factor(test_df$actual)
+test_df$prediction <- as.factor(test_df$prediction)
+
+# Recreate the confusion matrix
+xg.conf_matrix <- confusionMatrix(test_df$prediction, test_df$actual, positive = "1")
+print(xg.conf_matrix)
+
+```
+
+```{r}
+recall <- sensitivity(xg.conf_matrix$table, positive = "1")
+
+# Calculate precision (positive predictive value)
+precision <- posPredValue(xg.conf_matrix$table, positive = "1")
+
+# Calculate F1 score
+f1_score <- (2 * precision * recall) / (precision + recall)
+
+# Print the metrics
+print(paste("Recall:", recall))
+print(paste("Precision:", precision))
+print(paste("F1 Score:", f1_score))
+```
