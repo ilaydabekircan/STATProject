@@ -237,8 +237,7 @@ outliers <- which(abs(residuals(logit.full)) > 3*sd(residuals(logit.full)))
 ```
 
 ```{r}
-par(mfrow=c(2,2))
-plot(logit.full.2)
+data.train.2 <- data.train[-outliers,]
 ```
 
 **Checking for high leverage cases**
@@ -265,6 +264,11 @@ logit.full.2 <- glm(Attrition_Flag ~ .,
                   family = binomial(link = "logit"))
 summary(logit.full.2)
 
+```
+
+```{r}
+par(mfrow=c(2,2))
+plot(logit.full.2)
 ```
 
 ```{r}
@@ -309,7 +313,7 @@ library(rpart.plot)
 ```
 
 ```{r}
-rpart.plot(fit.allp, extra = "auto")
+rpart.plot(fit.allpred, extra = "auto")
 ```
 
 ```{r}
@@ -464,6 +468,7 @@ sum(diag(tab))/sum(tab)
 
 ```{r}
 threshold <- 0.5 # This threshold can be adjusted
+pred.y = predict(model.xgb, pred.test.gbm)
 prediction <- as.numeric(pred.y > threshold) # Convert probabilities to binary predictions
 
 # Now, create the test data frame
