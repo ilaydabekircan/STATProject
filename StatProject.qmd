@@ -1,8 +1,29 @@
 ---
-title: "Untitled"
-format: html
+title: "Statistical Analysis of Customer Credit Card Attrition"
+author: "Victoria Agboola, Ilayda Bekircan"
+format: pdf
 editor: visual
 ---
+
+## ABSTRACT
+
+## INTRODUCTION
+
+In the fast-paced environment of finance and banking industries, customer attrition threatens business managers and companies seeking to maintain a healthy business relationship with their customers. As financial institutions aims to follow market trends and consumer behaviors, to understand and predict credit card attrition becomes increasingly important. Recently, population of newly credit card customers has shrunk in an important scale. Therefore, banks are forced to have different and brilliant strategies to attract new customers from other financial institutions to improve their portfolio. To attract more new customers, banks strategize lower interest rates in credit cards for a time period at the beginning. However, when this advantageous period ends, customers tend to transfer their balance to an another bank before the interest rate pivots to the default value. Consequently, rather than maintaining existing customers, attracting new customers becomes more and more costly for the institutions. Banks set a course for managing their existing customers not to leave their credit card products since it cost less to invest on them. Accordingly, portfolio of existing customers are prone to increase their spendings on their credit cards more \[1\].
+
+The significance of anticipating which clients, particularly those with a high return on investment, are prone to leaving has grown in importance for banks. Focusing on this foresight, financial institutions can implement targeted marketing initiatives that have demonstrated efficiency in customer retention. Given the elevated importance and widespread interest among financial entities, this project introduces machine learning methodologies for classifying credit card attrition \[2\].
+
+An increasing rate of customer attrition causes unsettling problems for the company with a consumer credit card portfolio. Managers and data analytics teams must answer important questions while clients stop using the bank's credit card services: What causes this attrition and what motivates it? Are there any trends that causes customers stop using their credit cards? How can this information be properly used to forecast and stop attrition? It is essential to minimize financial losses to build client loyalty and improve business sustainability by comprehending the analysis of credit card attrition. The bank can implement strategies to retain valuable customers and improve customer engagement procedures by resolving root causes of customer churn. In order to provide business managers with useful insights, this project uses extensive statistical methods to comb through the complexity of customer attrition in the banking industry and identify the underlying causes.
+
+The primary goal of this project is to conduct a comprehensive statistical analysis of credit card attrition of customers in a bank's portfolio. The project aims to reveal trends and root causes that originates customer attrition by developing predictive models including binary logit, CART (Classification and Regression Trees), Random Forest, and XGBoost to forecast customer churn with enhanced accuracy. By leveraging machine learning algorithms, we seek to understand the reasons behind driving customer attrition in banks. This predictive capability will equip the business managers with valuable insights, enabling them to implement targeted retention strategies and mitigate potential financial losses.
+
+## DATA DESCRIPTION
+
+## GOAL
+
+## STATISTICAL METHODS
+
+## RESULTS
 
 ```{r}
 library(tidyverse)
@@ -10,8 +31,7 @@ library(ggplot2)
 ```
 
 ```{r}
-data.bank <- read.csv("/Users/victoriaa/Desktop/STAT5405/DATA/BankChurners.csv")
-data.bank
+data.bank <- read.csv("/Users/ilaydabekircan/Documents/STAT/Project/BankChurners.csv")
 ```
 
 ```{r}
@@ -254,7 +274,6 @@ chilev
 ```{r}
 cooksD <- cooks.distance(logit.full)
 highCooksD <- which(cooksD > (4/(n-p-1)))
-highCooksD
 ```
 
 ```{r}
@@ -498,3 +517,11 @@ print(paste("Recall:", recall))
 print(paste("Precision:", precision))
 print(paste("F1 Score:", f1_score))
 ```
+
+## SUMMARY AND CONCLUSION
+
+## REFERENCES
+
+\[1\] Rico-Poveda, C.A., & Galpin, I. (2020). Forecasting Credit Card Attrition using Machine Learning Models. ICAI Workshops.
+
+\[2\] Mourtas, S. D., Katsikis, V. N., & Sahas, R. (2023). Credit Card Attrition Classification Through Neuronets. In P. Stanimorovic, A. A. Stupina, E. Semenkin, & I. V. Kovalev (Eds.), Hybrid Methods of Modeling and Optimization in Complex Systems, vol 1. European Proceedings of Computers and Technology (pp. 86-93). European Publisher.
