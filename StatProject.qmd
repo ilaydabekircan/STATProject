@@ -19,6 +19,48 @@ The primary goal of this project is to conduct a comprehensive statistical analy
 
 ## DATA DESCRIPTION
 
+**Attrition_Flag:** This variable is the binary response variable which refers if a customer's account is closed or not. If a credit card is not in use anymore, this variable is flagged as "Attrited Customer" and if it is still in use, it is flagged as "Existing Customer". This variable will be converted to 0 for existing customers and 1 for attrited customers for easy interpretation and simple usage in machine learning models. The data set consists of 84% of existing customers and 16% of attrited customers.
+
+The following parameters will be used as independent variables (predictors) in the machine learning models you will see in the following parts of the project.
+
+**Customer_Age:** This variable represents age of account holders in the bank's portfolio. The unit of this variable is years. The minimum and maximum age in this data set are 26 and 73, respectively. The frequency of occurence is at high point between ages 40 and 50.
+
+**Gender:** This is the sex of the account holders which gives us information about the demographic structure of the population in the data set. 53% of the observations are constructed by females while 47% of them are by males. Since the percentages are close to each other, we can assume gender distribution is balanced.
+
+**Dependent_count:** This variable shows how many other individuals are considered as dependent for the corresponding customer. If a customer has no dependent individual in their financial account, this parameter is labeled as 0. The maximum number of dependent individuals in this data set is 5.
+
+**Education_Level:** This parameter represents seven different education level status for the customers in the portfolio. The distinct values are Uneducated, High School, College, Graduate, Post-Graduate, Doctorate and Unknown.
+
+**Marital_Status:** This predictor involves four unique marital status: Divorced, Marries, Single and Unknown.
+
+**Income_Category:** This is an independet variable that gives information about the account holders' annual incomes in categories: Less than \$40K, \$40K - \$60K, \$60K - \$80K, \$80K - \$120K, \$120K+ and Unknown.
+
+**Card_Category:** The bank has different credit card types that each one has different benefits. There are four unique products Blue, Gold, Platinum, Silver and 93.18% of the observations have Blue card in the data set.
+
+**Months_on_book:** This one represents the period of relationship of the client to their credit cards in months. The minimum months on book is 13 while the maximum amount in the data set is 56.
+
+**Total_Relationship_Count:** Total relationship count shows the total number of products that the corresponding customer holds in the bank. Since all customers have at least one product in the data set, the minimum amount is always 1 which can increase up to 6.
+
+**Months_Inactive_12_mon:** If a customer has any inactivity for a whole month in the last 12 months, this parameter gives the total number of inactive month number. If there is no inactivity for a whole year, it gives 0.
+
+**Contacts_Count_12_mon:** This predictor is the contact number between the customer and the bank in the last 12 months. This number can differ from 0 to 6.
+
+**Credit_Limit:** This gives the credit card limit of the client in dollars (\$). The range is between \$1438 and \$34,516.
+
+**Total_Revolving_Bal:** Reveolving balance is the balance carries over from one month to the next and this predictor gives the information in dollars (\$). If a customer pays their checks in time, the total revolving balance is 0.
+
+**Avg_Open_To_Buy:** Open to buy means the amount left in the customer's credit card that they can use montly. This parameter (Average open to buy) gives the average of open to buy values of last 12 months in dollars (\$).
+
+**Total_Trans_Amt:** Total transaction amount is the sum of all the transactions happening in the customer's account in the last 12 months in dollars (\$).
+
+**Total_Trans_Ct:** Total transaction count is the count of all the transactions happening in the customer's account in the last 12 months.
+
+**Total_Ct_Chng_Q4_Q1:** This variable gives information about the ratio of the total transaction count in 4th quarter to the total transaction count in 1st quarter.
+
+**Total_Amt_Chng_Q4_Q1:** This is the ratio of the total transaction amount in 4th quarter to the total transaction amount in 1st quarter.
+
+**Avg_Utilization_Ratio:** Average utilization ratio represents how much of the available credit the customer spent by their credit cards.
+
 ## GOAL
 
 ## STATISTICAL METHODS
@@ -61,8 +103,6 @@ print(correlation_matrix[9, "Credit_Limit"])
 ```
 
 Extremely high correlation between predictors can cause multicollinearity, making it challenging for the regression model to estimate unique coefficients for each predictor. Also, multicollinearity can lead to inflated standard errors for the coefficients, making the estimation less precise. Therefore, we drop the column 'Avg_Open_To_Buy' to reduce instability.
-
-**Note to Victoria: If we don't drop this column, logit model gives na values for Avg_Open_To_Buy and vif cannot be calculated, it gives an error saying that there is a perfect correlation between two predictors.**
 
 ```{r}
 data.bank <- data.bank[, -which(names(data.bank) == "Avg_Open_To_Buy")]
