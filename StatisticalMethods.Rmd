@@ -1,0 +1,66 @@
+---
+title: "Statistical Analysis of Customer Credit Card Attrition"
+author: "Victoria Agboola, Ilayda Bekircan"
+format: pdf
+editor: visual
+---
+
+## STATISTICAL METHODS
+
+In this project, four different methods (Binary logistic regression, CART algorithm, Random forest and XGBoosting) are used to analyze credit card attrition of customers with the given data set. There are several reasons behind using not only one method but comparing four models with each other. By comparing multiple models, one can assess their performance metrics, such as accuracy, precision, recall and F1 score. This allows us to identify which model provides the most accurate and reliable predictions for credit card customer attrition. Different models may handle the data differently and may be more or less robust to variations in the dataset. Comparing multiple models helps evaluating their generalization capabilities and choosing the one that is likely to perform well on a new data.
+
+Logistic regression models are used to examine how predictor variables influence categorical outcomes. Typically, the outcome for logistic regression is binary indicating the presence or absence of an event. If the logistic regression model involves just one predictor variable, it is called simple logistic regression. However, if there are multiple predictors, encompassing both categorical and continuous variables, the model is called multiple or multivariable logistic regression. The logit link function serves to transform a linear combination of covariate values, which can range from negative to positive infinity, into a probability scale ranging between 0 and 1. Binary logistic regression is a type of generalized linear models (GLIM) with the link function in Eq1 where $\pi_i$ is the ith mean response and $\eta_i$ is the systematic component [3].
+
+\begin{equation} 
+  \mathrm{logit}(\pi_i)=\log \left( \dfrac{\pi_i}{1-\pi_i} \right) = \eta_i.
+\end{equation} 
+
+The systematic component $\eta_i$ for the logit model is stated in Eq2 as
+
+\begin{equation} 
+  \eta_i=\beta_0+\beta_1x_{i1}+\beta_2x_{i2}+ \dots +\beta_px_{ip},
+\end{equation}
+where $p$ is the number of predictors, $\beta$ is the regression coefficient for the corresponding covariate and $x$ is the value for the respective covariate [4].
+
+By using both Eq1 and Eq2, we can state the binary logit model function as in Eq3 [4].
+
+\begin{equation} 
+  \pi_i=\dfrac{\exp(\beta_0+\sum_{j=1} ^{p} \beta_j X_{i,j})}{1+\exp(\beta_0+\sum_{j=1} ^{p} \beta_j X_{i,j})}.
+\end{equation} 
+
+The second statistical method that is used in this project is CART (Classification and Regression Trees) algorithm. CART algorithm offers several advantages because of its tree-structure. To create a binary tree, a series of node splits is created where each internal node undergoes a test on one of the features. Depending on the outcome of the test, the algorithm branches to the left or right. This splitting process is determined by the predictor that maximizes the decrease in heterogeneity of the binary response variable, credit attrition status in our consideration. The tree continues to grow until a leaf node (terminal node) is reached, at which point further growth stops, and a binary prediction for the response is finalized [4].
+
+Unlike certain other nonparametric methods for classification and regression, the resulting tree-structured predictors can be relatively straightforward functions of the input variables. For analysts seeking accurate results without time and expertise needed for traditional methods, CART algorithm can be advantageous. Even in situations where conventional methods are preferred, trees remain helpful, especially when dealing with numerous variables, as they can assist in identifying significant variables and interactions [5]. CART can effectively model non-linear relationships making it versatile in capturing complex patterns. This algorithm automatically identifies the most relevant predictors for splitting nodes in the decision tree focusing on the most informative ones which can be valuable in handling datasets with a large number of variables. In other words, it is a greedy algorithm that chooses the best discriminatory feature at each step in the modeling process [4]. 
+
+The rpart package in R that is used in this project to model CART algorithm uses Gini index as an impurity index. The main focus behind the model is to minimize cost while having satisfactory amount of leaf nodes [4]. Equation 4 gives the formula of the cost of this tree with error indicating the ratio of misclassified cases and N indicating the number of leaf nodes in the model.
+
+\begin{equation} 
+  Cost_{CP}(Tree)=Error(Tree)+C_p \cdot N(Tree)
+\end{equation} 
+
+As the third model used in this project, random forest is a member of decision tree models in statistics which is developed as a randomized version of the tree algorithms [6]. This model creates a large number of decision trees using randomization. Also, while creating different forms of decision trees, predictors in these trees are chosen randomly from the data set. The data sets for each decision tree are sampled with replacement which means the same observations may occur in different decision trees since all samples will be drawn from the original data set and this process is named bagging or bootstrap aggregating [4]. The ensemble approach of Random Forest enables the model to prioritize the most informative variables while automatically reducing the importance of those with lower predictive effectiveness. In the context of overfitting, random forest is more advantageous than CART algorithm since CART has only one decision tree. Random forest algorithm constructs an ensemble of several trees which provides more generalized results on new data rather than fitting closely of the training set.
+
+As the final statistical method that is used in the project, XGBoost (eXtreme Gradient Boosting) is applied on the credit card customer attrition dataset. The main concept behind XGBoost is to create a better learner with good hypothesis from weak learners with poor hypothesis by building predictive models [7]. Gradient Boosting Algorithms create a series of shallow trees by providing correcting the errors for each tree from its prior tree, then combine together to have the final version. The most precisive characteristics of XGBoosting when comparing to other boosting algorithms are its fast and accurate structure [4]. Also, adding a regularization term (L1 and L2) to XGBoost helps it become better at making predictions on new data. This is important because decision trees can sometimes memorize the training data too much, and the regularization term helps preventing that [8].
+
+
+
+## REFERENCES
+
+[1] Rico-Poveda, C.A., & Galpin, I. (2020). Forecasting Credit Card Attrition using Machine Learning Models. ICAI Workshops.
+
+[2] Mourtas, S. D., Katsikis, V. N., & Sahas, R. (2023). Credit Card Attrition Classification Through Neuronets. In P. Stanimorovic, A. A. Stupina, E. Semenkin, & I. V. Kovalev (Eds.), Hybrid Methods of Modeling and Optimization in Complex Systems, vol 1. European Proceedings of Computers and Technology (pp. 86-93). European Publisher.
+
+[3] Nick, T.G., Campbell, K.M. (2007). Logistic Regression. In: Ambrosius, W.T. (eds) Topics in Biostatistics. Methods in Molecular Biology™, vol 404. Humana Press.
+
+[4] Bar, H., Ravishanker N., Asha, G. Statistical Practice for Data
+Science: with Hands-on Illustrations using R (Draft Version)
+
+[5] Sutton, Clifton D. (2005). Handbook of Statistics: Chapter 11 - Classification and Regression Trees, Bagging, and Boosting.
+
+[6] Rigatti, Steven J. (2017) Random Forest. J Insur Med. 47 (1): 31–39.
+
+[7] Ramraj, S., Uzir N., Sunil R., Banerjee, S. (2016). Experimenting XGBoost Algorithm for Prediction and Classification of Different Datasets. International Journal of Control Theory and Applications. Vol 9. Number 40.
+
+[8] Chen M., Liu Q., Chen S., Liu Y., Zhang C. H., Liu, R. (2019). XGBoost-Based Algorithm Interpretation and Application on Post-Fault Transient Stability Status Prediction of Power System. IEEE Access, vol. 7, pp. 13149-13158.
+
+
